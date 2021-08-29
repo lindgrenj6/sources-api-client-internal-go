@@ -1,0 +1,571 @@
+openapi: 3.0.0
+info:
+  contact:
+    email: support@redhat.com
+  description: Sources Internal
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: Sources Internal
+  version: 2.0.0
+servers:
+- description: Development Server
+  url: http://localhost:{port}/{basePath}
+  variables:
+    port:
+      default: "3000"
+    basePath:
+      default: /internal/v2.0
+security:
+- UserSecurity: []
+paths:
+  /authentications/{id}:
+    get:
+      description: Returns a Authentication object
+      operationId: showAuthentication
+      parameters:
+      - description: ID of the resource
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          pattern: ^\d+$
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Authentication'
+          description: Authentication info
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorNotFound'
+          description: Not found
+      summary: Show an existing Authentication
+  /sources:
+    get:
+      description: Returns an array of Source objects
+      operationId: listSources
+      parameters:
+      - description: The numbers of items to return per page.
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 100
+          maximum: 1000
+          minimum: 1
+          type: integer
+        style: form
+      - description: The number of items to skip before starting to collect the result
+          set.
+        explode: true
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          minimum: 0
+          type: integer
+        style: form
+      - description: Filter for querying collections.
+        explode: true
+        in: query
+        name: filter
+        required: false
+        schema:
+          type: object
+        style: deepObject
+      - description: The list of attribute and order to sort the result set by.
+        explode: true
+        in: query
+        name: sort_by
+        required: false
+        schema:
+          oneOf:
+          - $ref: '#/components/schemas/SortByAttribute'
+          - items:
+              $ref: '#/components/schemas/SortByAttribute'
+            type: array
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SourcesCollection'
+          description: Sources collection
+      summary: List Sources
+  /tenants:
+    get:
+      description: 'Returns an array of Tenant objects:'
+      operationId: listTenants
+      parameters:
+      - description: The numbers of items to return per page.
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 100
+          maximum: 1000
+          minimum: 1
+          type: integer
+        style: form
+      - description: The number of items to skip before starting to collect the result
+          set.
+        explode: true
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          minimum: 0
+          type: integer
+        style: form
+      - description: Filter for querying collections.
+        explode: true
+        in: query
+        name: filter
+        required: false
+        schema:
+          type: object
+        style: deepObject
+      - description: The list of attribute and order to sort the result set by.
+        explode: true
+        in: query
+        name: sort_by
+        required: false
+        schema:
+          oneOf:
+          - $ref: '#/components/schemas/SortByAttribute'
+          - items:
+              $ref: '#/components/schemas/SortByAttribute'
+            type: array
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TenantsCollection'
+          description: Tenants collection
+      summary: List Tenants
+  /tenants/{id}:
+    get:
+      description: Returns a Tenant object
+      operationId: showTenant
+      parameters:
+      - description: ID of the resource
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          pattern: ^\d+$
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tenant'
+          description: Tenant info
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorNotFound'
+          description: Not found
+      summary: Show an existing Tenant
+components:
+  parameters:
+    ID:
+      description: ID of the resource
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema:
+        pattern: ^\d+$
+        type: string
+      style: simple
+    QueryFilter:
+      description: Filter for querying collections.
+      explode: true
+      in: query
+      name: filter
+      required: false
+      schema:
+        type: object
+      style: deepObject
+    QueryLimit:
+      description: The numbers of items to return per page.
+      explode: true
+      in: query
+      name: limit
+      required: false
+      schema:
+        default: 100
+        maximum: 1000
+        minimum: 1
+        type: integer
+      style: form
+    QueryOffset:
+      description: The number of items to skip before starting to collect the result
+        set.
+      explode: true
+      in: query
+      name: offset
+      required: false
+      schema:
+        default: 0
+        minimum: 0
+        type: integer
+      style: form
+    QuerySortBy:
+      description: The list of attribute and order to sort the result set by.
+      explode: true
+      in: query
+      name: sort_by
+      required: false
+      schema:
+        oneOf:
+        - $ref: '#/components/schemas/SortByAttribute'
+        - items:
+            $ref: '#/components/schemas/SortByAttribute'
+          type: array
+      style: form
+  schemas:
+    Authentication:
+      additionalProperties: false
+      example:
+        last_available_at: 2000-01-23T04:56:07.000+00:00
+        resource_type: Endpoint
+        authtype: openshift_default
+        last_checked_at: 2000-01-23T04:56:07.000+00:00
+        availability_status: availability_status
+        password: password
+        paused_at: 2000-01-23T04:56:07.000+00:00
+        availability_status_error: availability_status_error
+        extra:
+          azure:
+            tenant_id: tenant_id
+        name: OpenShift default
+        resource_id: resource_id
+        id: id
+        source_id: source_id
+        username: user@example.com
+      properties:
+        authtype:
+          example: openshift_default
+          readOnly: true
+          type: string
+        availability_status:
+          type: string
+        availability_status_error:
+          type: string
+        extra:
+          $ref: '#/components/schemas/Authentication_extra'
+        id:
+          description: ID of the resource
+          pattern: ^\d+$
+          readOnly: true
+          type: string
+        last_available_at:
+          format: date-time
+          type: string
+        last_checked_at:
+          format: date-time
+          type: string
+        name:
+          example: OpenShift default
+          type: string
+        password:
+          type: string
+        resource_id:
+          description: ID of the resource
+          pattern: ^\d+$
+          readOnly: true
+          type: string
+        resource_type:
+          example: Endpoint
+          type: string
+        source_id:
+          description: ID of the resource
+          pattern: ^\d+$
+          readOnly: true
+          type: string
+        username:
+          example: user@example.com
+          type: string
+        paused_at:
+          format: date-time
+          readOnly: true
+          type: string
+      type: object
+    CollectionLinks:
+      example:
+        next: next
+        last: last
+        prev: prev
+        first: first
+      properties:
+        first:
+          type: string
+        last:
+          type: string
+        next:
+          type: string
+        prev:
+          type: string
+      type: object
+    CollectionMetadata:
+      example:
+        offset: 1
+        count: 0
+        limit: 6
+      properties:
+        count:
+          type: integer
+        limit:
+          type: integer
+        offset:
+          type: integer
+      type: object
+    ErrorNotFound:
+      properties:
+        errors:
+          items:
+            $ref: '#/components/schemas/ErrorNotFound_errors'
+          type: array
+      type: object
+    ID:
+      description: ID of the resource
+      pattern: ^\d+$
+      readOnly: true
+      type: string
+    SortByAttribute:
+      description: Attribute with optional order to sort the result set by.
+      pattern: ^[a-z\-_]+(:asc|:desc)?$
+      type: string
+    Source:
+      additionalProperties: false
+      example:
+        app_creation_workflow: manual_configuration
+        last_available_at: 2000-01-23T04:56:07.000+00:00
+        created_at: 2000-01-23T04:56:07.000+00:00
+        source_ref: source_ref
+        source_type_id: source_type_id
+        version: 6.5.0
+        last_checked_at: 2000-01-23T04:56:07.000+00:00
+        availability_status: availability_status
+        uid: uid
+        paused_at: 2000-01-23T04:56:07.000+00:00
+        updated_at: 2000-01-23T04:56:07.000+00:00
+        imported: imported
+        name: Sample Provider
+        id: id
+      properties:
+        app_creation_workflow:
+          enum:
+          - manual_configuration
+          - account_authorization
+          type: string
+        availability_status:
+          type: string
+        created_at:
+          format: date-time
+          readOnly: true
+          type: string
+        id:
+          description: ID of the resource
+          pattern: ^\d+$
+          readOnly: true
+          type: string
+        imported:
+          type: string
+        last_available_at:
+          format: date-time
+          type: string
+        last_checked_at:
+          format: date-time
+          type: string
+        name:
+          example: Sample Provider
+          title: Name
+          type: string
+        source_ref:
+          type: string
+        source_type_id:
+          description: ID of the resource
+          pattern: ^\d+$
+          readOnly: true
+          type: string
+        uid:
+          readOnly: true
+          title: Unique ID of the inventory source installation
+          type: string
+        updated_at:
+          format: date-time
+          readOnly: true
+          type: string
+        version:
+          example: 6.5.0
+          readOnly: true
+          title: Version
+          type: string
+        paused_at:
+          format: date-time
+          readOnly: true
+          type: string
+      type: object
+    Tenant:
+      additionalProperties: false
+      example:
+        updated_at: 2000-01-23T04:56:07.000+00:00
+        name: name
+        created_at: 2000-01-23T04:56:07.000+00:00
+        description: description
+        external_tenant: external_tenant
+        id: id
+      properties:
+        id:
+          description: ID of the resource
+          pattern: ^\d+$
+          readOnly: true
+          type: string
+        created_at:
+          format: date-time
+          readOnly: true
+          type: string
+        description:
+          type: string
+        external_tenant:
+          type: string
+        name:
+          type: string
+        updated_at:
+          format: date-time
+          readOnly: true
+          type: string
+      type: object
+    SourcesCollection:
+      example:
+        data:
+        - app_creation_workflow: manual_configuration
+          last_available_at: 2000-01-23T04:56:07.000+00:00
+          created_at: 2000-01-23T04:56:07.000+00:00
+          source_ref: source_ref
+          source_type_id: source_type_id
+          version: 6.5.0
+          last_checked_at: 2000-01-23T04:56:07.000+00:00
+          availability_status: availability_status
+          uid: uid
+          paused_at: 2000-01-23T04:56:07.000+00:00
+          updated_at: 2000-01-23T04:56:07.000+00:00
+          imported: imported
+          name: Sample Provider
+          id: id
+        - app_creation_workflow: manual_configuration
+          last_available_at: 2000-01-23T04:56:07.000+00:00
+          created_at: 2000-01-23T04:56:07.000+00:00
+          source_ref: source_ref
+          source_type_id: source_type_id
+          version: 6.5.0
+          last_checked_at: 2000-01-23T04:56:07.000+00:00
+          availability_status: availability_status
+          uid: uid
+          paused_at: 2000-01-23T04:56:07.000+00:00
+          updated_at: 2000-01-23T04:56:07.000+00:00
+          imported: imported
+          name: Sample Provider
+          id: id
+        meta:
+          offset: 1
+          count: 0
+          limit: 6
+        links:
+          next: next
+          last: last
+          prev: prev
+          first: first
+      properties:
+        meta:
+          $ref: '#/components/schemas/CollectionMetadata'
+        links:
+          $ref: '#/components/schemas/CollectionLinks'
+        data:
+          items:
+            $ref: '#/components/schemas/Source'
+          type: array
+      type: object
+    TenantsCollection:
+      example:
+        data:
+        - updated_at: 2000-01-23T04:56:07.000+00:00
+          name: name
+          created_at: 2000-01-23T04:56:07.000+00:00
+          description: description
+          external_tenant: external_tenant
+          id: id
+        - updated_at: 2000-01-23T04:56:07.000+00:00
+          name: name
+          created_at: 2000-01-23T04:56:07.000+00:00
+          description: description
+          external_tenant: external_tenant
+          id: id
+        meta:
+          offset: 1
+          count: 0
+          limit: 6
+        links:
+          next: next
+          last: last
+          prev: prev
+          first: first
+      properties:
+        meta:
+          $ref: '#/components/schemas/CollectionMetadata'
+        links:
+          $ref: '#/components/schemas/CollectionLinks'
+        data:
+          items:
+            $ref: '#/components/schemas/Tenant'
+          type: array
+      type: object
+    Authentication_extra_azure:
+      example:
+        tenant_id: tenant_id
+      properties:
+        tenant_id:
+          type: string
+      type: object
+    Authentication_extra:
+      example:
+        azure:
+          tenant_id: tenant_id
+      properties:
+        azure:
+          $ref: '#/components/schemas/Authentication_extra_azure'
+      type: object
+    ErrorNotFound_errors:
+      properties:
+        status:
+          example: "404"
+          type: string
+        detail:
+          example: Record not found
+          type: string
+      type: object
+  securitySchemes:
+    UserSecurity:
+      scheme: basic
+      type: http
