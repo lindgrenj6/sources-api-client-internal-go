@@ -5,7 +5,7 @@
 # the openapi schema needs to be in this directory for the container to see it.
 # it would have to be something like /workdir/output
 
-sudo docker run -it --rm \
+docker run -it --rm \
     -v /tmp:/tmp \
     -v $PWD:/workdir \
     openapitools/openapi-generator-cli:v5.0.0 \
