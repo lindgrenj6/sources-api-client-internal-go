@@ -88,11 +88,7 @@ paths:
         name: sort_by
         required: false
         schema:
-          oneOf:
-          - $ref: '#/components/schemas/SortByAttribute'
-          - items:
-              $ref: '#/components/schemas/SortByAttribute'
-            type: array
+          $ref: '#/components/schemas/SortByAttribute'
         style: form
       responses:
         "200":
@@ -143,11 +139,7 @@ paths:
         name: sort_by
         required: false
         schema:
-          oneOf:
-          - $ref: '#/components/schemas/SortByAttribute'
-          - items:
-              $ref: '#/components/schemas/SortByAttribute'
-            type: array
+          $ref: '#/components/schemas/SortByAttribute'
         style: form
       responses:
         "200":
@@ -237,11 +229,7 @@ components:
       name: sort_by
       required: false
       schema:
-        oneOf:
-        - $ref: '#/components/schemas/SortByAttribute'
-        - items:
-            $ref: '#/components/schemas/SortByAttribute'
-          type: array
+        $ref: '#/components/schemas/SortByAttribute'
       style: form
   schemas:
     Authentication:

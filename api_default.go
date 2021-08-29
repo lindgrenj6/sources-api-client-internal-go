@@ -34,7 +34,7 @@ type ApiListSourcesRequest struct {
 	limit *int32
 	offset *int32
 	filter *map[string]interface{}
-	sortBy *OneOfstringarray
+	sortBy *string
 }
 
 func (r ApiListSourcesRequest) Limit(limit int32) ApiListSourcesRequest {
@@ -49,7 +49,7 @@ func (r ApiListSourcesRequest) Filter(filter map[string]interface{}) ApiListSour
 	r.filter = &filter
 	return r
 }
-func (r ApiListSourcesRequest) SortBy(sortBy OneOfstringarray) ApiListSourcesRequest {
+func (r ApiListSourcesRequest) SortBy(sortBy string) ApiListSourcesRequest {
 	r.sortBy = &sortBy
 	return r
 }
@@ -173,7 +173,7 @@ type ApiListTenantsRequest struct {
 	limit *int32
 	offset *int32
 	filter *map[string]interface{}
-	sortBy *OneOfstringarray
+	sortBy *string
 }
 
 func (r ApiListTenantsRequest) Limit(limit int32) ApiListTenantsRequest {
@@ -188,7 +188,7 @@ func (r ApiListTenantsRequest) Filter(filter map[string]interface{}) ApiListTena
 	r.filter = &filter
 	return r
 }
-func (r ApiListTenantsRequest) SortBy(sortBy OneOfstringarray) ApiListTenantsRequest {
+func (r ApiListTenantsRequest) SortBy(sortBy string) ApiListTenantsRequest {
 	r.sortBy = &sortBy
 	return r
 }

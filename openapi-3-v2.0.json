@@ -221,17 +221,7 @@
         "description": "The list of attribute and order to sort the result set by.",
         "required": false,
         "schema": {
-          "oneOf": [
-            {
               "$ref": "#/components/schemas/SortByAttribute"
-            },
-            {
-              "type": "array",
-              "items": {
-                "$ref": "#/components/schemas/SortByAttribute"
-              }
-            }
-          ]
         }
       }
     },

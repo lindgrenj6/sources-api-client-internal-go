@@ -35,7 +35,7 @@ func main() {
     limit := int32(56) // int32 | The numbers of items to return per page. (optional) (default to 100)
     offset := int32(56) // int32 | The number of items to skip before starting to collect the result set. (optional) (default to 0)
     filter := TODO // map[string]interface{} | Filter for querying collections. (optional)
-    sortBy := TODO // OneOfstringarray | The list of attribute and order to sort the result set by. (optional)
+    sortBy := "sortBy_example" // string | The list of attribute and order to sort the result set by. (optional)
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
@@ -63,7 +63,7 @@ Name | Type | Description  | Notes
  **limit** | **int32** | The numbers of items to return per page. | [default to 100]
  **offset** | **int32** | The number of items to skip before starting to collect the result set. | [default to 0]
  **filter** | [**map[string]interface{}**](map[string]interface{}.md) | Filter for querying collections. | 
- **sortBy** | [**OneOfstringarray**](OneOfstringarray.md) | The list of attribute and order to sort the result set by. | 
+ **sortBy** | **string** | The list of attribute and order to sort the result set by. | 
 
 ### Return type
 
@@ -107,7 +107,7 @@ func main() {
     limit := int32(56) // int32 | The numbers of items to return per page. (optional) (default to 100)
     offset := int32(56) // int32 | The number of items to skip before starting to collect the result set. (optional) (default to 0)
     filter := TODO // map[string]interface{} | Filter for querying collections. (optional)
-    sortBy := TODO // OneOfstringarray | The list of attribute and order to sort the result set by. (optional)
+    sortBy := "sortBy_example" // string | The list of attribute and order to sort the result set by. (optional)
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
@@ -135,7 +135,7 @@ Name | Type | Description  | Notes
  **limit** | **int32** | The numbers of items to return per page. | [default to 100]
  **offset** | **int32** | The number of items to skip before starting to collect the result set. | [default to 0]
  **filter** | [**map[string]interface{}**](map[string]interface{}.md) | Filter for querying collections. | 
- **sortBy** | [**OneOfstringarray**](OneOfstringarray.md) | The list of attribute and order to sort the result set by. | 
+ **sortBy** | **string** | The list of attribute and order to sort the result set by. | 
 
 ### Return type
 
